@@ -14,6 +14,10 @@
 		183AE062225229C6001AA32A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 183AE060225229C6001AA32A /* LaunchScreen.storyboard */; };
 		183AE06D225229C6001AA32A /* repoStarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE06C225229C6001AA32A /* repoStarsTests.swift */; };
 		183AE078225229C6001AA32A /* repoStarsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE077225229C6001AA32A /* repoStarsUITests.swift */; };
+		183AE0A722522D77001AA32A /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE0A622522D77001AA32A /* MainTableViewCell.swift */; };
+		183AE0AB2252427B001AA32A /* Unknown.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 183AE0AA2252427B001AA32A /* Unknown.jpeg */; };
+		183AE0AD2252486D001AA32A /* filledStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 183AE0AC2252486D001AA32A /* filledStar.png */; };
+		183AE0B122556BAF001AA32A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE0B022556BAF001AA32A /* Repository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		183AE073225229C6001AA32A /* repoStarsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = repoStarsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		183AE077225229C6001AA32A /* repoStarsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = repoStarsUITests.swift; sourceTree = "<group>"; };
 		183AE079225229C6001AA32A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		183AE0A622522D77001AA32A /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		183AE0AA2252427B001AA32A /* Unknown.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Unknown.jpeg; sourceTree = "<group>"; };
+		183AE0AC2252486D001AA32A /* filledStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filledStar.png; sourceTree = "<group>"; };
+		183AE0B022556BAF001AA32A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +105,12 @@
 		183AE056225229C3001AA32A /* repoStars */ = {
 			isa = PBXGroup;
 			children = (
+				183AE0AF22556A59001AA32A /* Model */,
+				183AE0AE225567FF001AA32A /* Controller */,
+				183AE0AC2252486D001AA32A /* filledStar.png */,
+				183AE0AA2252427B001AA32A /* Unknown.jpeg */,
+				183AE0A522522D14001AA32A /* Table view cells */,
 				183AE057225229C3001AA32A /* AppDelegate.swift */,
-				183AE059225229C3001AA32A /* ViewController.swift */,
 				183AE05B225229C3001AA32A /* Main.storyboard */,
 				183AE05E225229C6001AA32A /* Assets.xcassets */,
 				183AE060225229C6001AA32A /* LaunchScreen.storyboard */,
@@ -123,6 +135,30 @@
 				183AE079225229C6001AA32A /* Info.plist */,
 			);
 			path = repoStarsUITests;
+			sourceTree = "<group>";
+		};
+		183AE0A522522D14001AA32A /* Table view cells */ = {
+			isa = PBXGroup;
+			children = (
+				183AE0A622522D77001AA32A /* MainTableViewCell.swift */,
+			);
+			path = "Table view cells";
+			sourceTree = "<group>";
+		};
+		183AE0AE225567FF001AA32A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				183AE059225229C3001AA32A /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		183AE0AF22556A59001AA32A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				183AE0B022556BAF001AA32A /* Repository.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,9 +265,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				183AE0AB2252427B001AA32A /* Unknown.jpeg in Resources */,
 				183AE062225229C6001AA32A /* LaunchScreen.storyboard in Resources */,
 				183AE05F225229C6001AA32A /* Assets.xcassets in Resources */,
 				183AE05D225229C3001AA32A /* Main.storyboard in Resources */,
+				183AE0AD2252486D001AA32A /* filledStar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +295,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				183AE05A225229C3001AA32A /* ViewController.swift in Sources */,
+				183AE0A722522D77001AA32A /* MainTableViewCell.swift in Sources */,
 				183AE058225229C3001AA32A /* AppDelegate.swift in Sources */,
+				183AE0B122556BAF001AA32A /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -418,7 +458,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
