@@ -37,16 +37,30 @@ class ViewController: UIViewController {
         //imageView = UIImageView(frame: CGRect(x: 0, y: 110, width: 100, height: 200))
         //imageView!.contentMode = .center
         //imageView!.contentMode = .scaleAspectFit
+        LibraryAPI.shared.getRepos(completion:{(myRepos)  in
+            if(myRepos != nil){
+                self.repos = myRepos
+                self.populateModels2(30)
+                DispatchQueue.main.async(execute: {
+                    self.tableView.reloadData()
+                })
+            }
+        })
         
-        
-        getRequestAPICall("f0b5d75500a2db859e1a152376fe2e65", hash: "a2c3fad843830de5e6c631ddbc41a0c9", ts: "2")
+        //getRequestAPICall("f0b5d75500a2db859e1a152376fe2e65", hash: "a2c3fad843830de5e6c631ddbc41a0c9", ts: "2")
         
         configureCollectionView()
         //self.tableView.prefetchDataSource = self;
     }
     
     func getRequestAPICall(_ apikey: String?, hash: String?, ts: String?) {
-        httpClient.getRequestAPICall("f0b5d75500a2db859e1a152376fe2e65", hash: "a2c3fad843830de5e6c631ddbc41a0c9", ts: "2",completion:{(error) in
+        //get the date before 30 days
+        let today = Date()
+        let past30Days = Calendar.current.date(byAdding: .day, value: -30, to: today)
+        let date = DateFormatter()
+        date.dateFormat = "yyyy-MM-dd"
+        let stringDate : String = date.string(from: past30Days!)
+        httpClient.getRequestAPICall("https://api.github.com/search/repositories?q=created:%3E" + /*2019-01-01*/stringDate + "&sort=stars&order=desc",completion:{(error)  in
             if(error == nil){
                 self.populateModels2(30)
                 DispatchQueue.main.async(execute: {
@@ -54,59 +68,6 @@ class ViewController: UIViewController {
                 })
             }
         })
-        /*
-        let todosEndpoint = "https://api.github.com/search/repositories?q=created:%3E2019-01-01&sort=stars&order=desc"
-        let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
-        var request = NSMutableURLRequest()
-        request.httpMethod = "GET"
-        request.url = URL(string: todosEndpoint)
-        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-            if error != nil {
-                return
-            }
-            var object: Any? = nil
-            if let data = data {
-                object = try? JSONSerialization.jsonObject(with: data, options: [])
-            }
-            var count: Int = 30
-            var wiki: NSString
-            if let object1 = object as? NSDictionary{
-                if let characters = object1["items"] as? NSArray{
-                    //for (obj) in characters {
-                    //loop on the results per page response(request returns 30 repositories)
-                    for i in 0..<count {
-                        let obj = characters[i]
-                         if let character = obj as? NSDictionary {
-                            let tId = "\(character.value(forKey: "id"))"
-                            //create a new repository with fetched id
-                            guard let repo = Repository(repoId: tId, name: "", description: "", ownerName: "", thumbnailUrl: "", starCount: "", wiki: "") else {
-                                fatalError("Unable to instantiate contact1")
-                            }
-                            repo.name = character.value(forKey: "name") as! String
-                            repo.description = character.value(forKey: "description") as! String
-                            //read the stars count as NSNumber then cast it to string
-                            if let stars = character.value(forKey: "stargazers_count") as? NSNumber{
-                                repo.starCount = stars.stringValue
-                            }
-                            if let thumb=character["owner"]as? NSDictionary {
-                                repo.thumbnailUrl = thumb.value(forKey: "avatar_url") as! String
-                                repo.ownerName = thumb.value(forKey: "login") as! String
-                            }
-                            wiki = character["html_url"] as! NSString
-                            repo.wiki = character["html_url"] as! String
-                            //add the created repository to the repositories array
-                            self.repos.append(repo)
-                        }
-                    }
-                }
-            }
-            */
-        
-            /*
-            })
-            task.resume()
-            */
         }
     func populateModels2(_ count: Int) {
         downloadImageOperationQueue = OperationQueue()
@@ -117,7 +78,7 @@ class ViewController: UIViewController {
         //Simulating initial load of content
         for counter in 0..<count {
             //Simulating slow download using large images
-            urlStr = httpClient.repos[counter].thumbnailUrl// mutableArrayThumbnails[counter] as! String
+            urlStr = repos[counter].thumbnailUrl// mutableArrayThumbnails[counter] as! String
             //urlStr = urlStr + (".")
             //urlStr = urlStr + (mutableArrayThumbnailsExt[counter] as! String)
             let imageStringAdress = urlStr
@@ -249,11 +210,11 @@ extension ViewController: UITableViewDataSource,UITabBarDelegate{//}, UITableVie
     // MARK: <UITableViewDataSource>
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MainCollectionViewCell
-        cell.repoTitleLabel.text = httpClient.repos[indexPath.row].name// self.mutableArrayNames[indexPath.row] as! String
-        cell.repoOwnerLabel.text = httpClient.repos[indexPath.row].ownerName// self.mutableArrayOwnerNames[indexPath.row] as! String
-        cell.repoDescrpLabel.text = httpClient.repos[indexPath.row].description//self.mutableArrayDescriptions[indexPath.row] as! String
+        cell.repoTitleLabel.text = repos[indexPath.row].name// self.mutableArrayNames[indexPath.row] as! String
+        cell.repoOwnerLabel.text = repos[indexPath.row].ownerName// self.mutableArrayOwnerNames[indexPath.row] as! String
+        cell.repoDescrpLabel.text = repos[indexPath.row].description//self.mutableArrayDescriptions[indexPath.row] as! String
         
-        let count = httpClient.repos[indexPath.row].starCount
+        let count = repos[indexPath.row].starCount
         let doubleCount = (count as NSString).doubleValue
         //let count = Double(self.repos[indexPath.row].starCount.string)// self.mutableArrayStars[indexPath.row] as! Double
         //let count = NumberFormatter().number(from: self.repos[indexPath.row].starCount)?.doubleValue
