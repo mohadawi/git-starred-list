@@ -18,6 +18,8 @@
 		183AE0AB2252427B001AA32A /* Unknown.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 183AE0AA2252427B001AA32A /* Unknown.jpeg */; };
 		183AE0AD2252486D001AA32A /* filledStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 183AE0AC2252486D001AA32A /* filledStar.png */; };
 		183AE0B122556BAF001AA32A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE0B022556BAF001AA32A /* Repository.swift */; };
+		183AE0B42256D9E3001AA32A /* ListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE0B32256D9E3001AA32A /* ListAPI.swift */; };
+		183AE0B62256E27B001AA32A /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183AE0B52256E27B001AA32A /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		183AE0AA2252427B001AA32A /* Unknown.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Unknown.jpeg; sourceTree = "<group>"; };
 		183AE0AC2252486D001AA32A /* filledStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filledStar.png; sourceTree = "<group>"; };
 		183AE0B022556BAF001AA32A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		183AE0B32256D9E3001AA32A /* ListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAPI.swift; sourceTree = "<group>"; };
+		183AE0B52256E27B001AA32A /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,7 @@
 		183AE056225229C3001AA32A /* repoStars */ = {
 			isa = PBXGroup;
 			children = (
+				183AE0B22256D6B2001AA32A /* API */,
 				183AE0AF22556A59001AA32A /* Model */,
 				183AE0AE225567FF001AA32A /* Controller */,
 				183AE0AC2252486D001AA32A /* filledStar.png */,
@@ -159,6 +164,15 @@
 				183AE0B022556BAF001AA32A /* Repository.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		183AE0B22256D6B2001AA32A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				183AE0B32256D9E3001AA32A /* ListAPI.swift */,
+				183AE0B52256E27B001AA32A /* HTTPClient.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,8 +310,10 @@
 			files = (
 				183AE05A225229C3001AA32A /* ViewController.swift in Sources */,
 				183AE0A722522D77001AA32A /* MainTableViewCell.swift in Sources */,
+				183AE0B62256E27B001AA32A /* HTTPClient.swift in Sources */,
 				183AE058225229C3001AA32A /* AppDelegate.swift in Sources */,
 				183AE0B122556BAF001AA32A /* Repository.swift in Sources */,
+				183AE0B42256D9E3001AA32A /* ListAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
