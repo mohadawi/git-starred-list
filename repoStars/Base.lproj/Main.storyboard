@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Most Starred Gits-->
         <scene sceneID="XUg-1N-xx4">
             <objects>
                 <tableViewController id="5On-la-dd2" customClass="ViewController" customModule="repoStars" customModuleProvider="target" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <outlet property="delegate" destination="5On-la-dd2" id="8YV-ou-0Zq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="LSY-ip-P2U"/>
+                    <navigationItem key="navigationItem" title="Most Starred Gits" id="LSY-ip-P2U"/>
                     <connections>
                         <outlet property="tableView" destination="fnt-8p-ut4" id="tkl-d0-TlN"/>
                     </connections>

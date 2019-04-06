@@ -25,8 +25,16 @@ class Repository {
     
     init?(repoId: String, name: String, description: String, ownerName: String, thumbnailUrl: String, starCount: String, wiki: String) {
         
-        // The name must not be empty
+        // The repo ID must not be empty
         guard !repoId.isEmpty else {
+            return nil
+        }
+        // The repo name must not be empty
+        guard !name.isEmpty else {
+            return nil
+        }
+        // The repo login must not be empty
+        guard !ownerName.isEmpty else {
             return nil
         }
         

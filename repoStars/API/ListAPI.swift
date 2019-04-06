@@ -27,7 +27,7 @@ final class LibraryAPI {
     // 1
     static let shared = LibraryAPI()
     private let httpClient = HTTPClient()
-    private let isOnline = false
+    private let isOnline = true
     // 2
     
     func getRepos(completion: @escaping ([Repository]) -> Void){
@@ -41,27 +41,4 @@ final class LibraryAPI {
     func getRepos2() -> [Repository]{
         return httpClient.repos
     }
-    
-    /*
-    @objc func downloadImage(with notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let imageView = userInfo["imageView"] as? UIImageView,
-            let coverUrl = userInfo["coverUrl"] as? String,
-            let filename = URL(string: coverUrl)?.lastPathComponent else {
-                return
-        }
-        
-        if let savedImage = httpClient.getImage(with: filename) {
-            imageView.image = savedImage
-            return
-        }
-        
-        DispatchQueue.global().async {
-            let downloadedImage = self.httpClient.downloadImage(coverUrl) ?? UIImage()
-            DispatchQueue.main.async {
-                imageView.image = downloadedImage
-                self.httpClient.saveImage(downloadedImage, filename: filename)
-            }
-        }
-    }*/
 }

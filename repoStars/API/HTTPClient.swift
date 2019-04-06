@@ -12,6 +12,7 @@ import UIKit
 class HTTPClient {
     //holds the rpeos list--consider moving it up level in listAPI class
     var repos = [Repository]()
+    var count:Int = 0
     
     init() {
         
@@ -33,21 +34,31 @@ class HTTPClient {
             if let data = data {
                 object = try? JSONSerialization.jsonObject(with: data, options: [])
             }
-            let count: Int = 30
-            //var repoDescription :String
             if let object1 = object as? NSDictionary{
                 if let characters = object1["items"] as? NSArray{
-                    //for (obj) in characters {
-                    //loop on the results per page response(request returns 30 repositories)
-                    for i in 0..<count {
-                        let obj = characters[i]
+                    for (obj) in characters {
+                    //loop on the results per page
                         if let character = obj as? NSDictionary {
+                            //get the repo id, name, owner's name
                             let tId = "\(character.value(forKey: "id") ?? "")"
-                            //create a new repository with fetched id
-                            guard let repo = Repository(repoId: tId, name: "", description: "", ownerName: "", thumbnailUrl: "", starCount: "", wiki: "") else {
-                                fatalError("Unable to instantiate contact1")
+                            let name = character.value(forKey: "name") as! String
+                            var login = ""
+                            if let owner=character["owner"]as? NSDictionary {
+                                login = owner.value(forKey: "login") as! String
                             }
-                            repo.name = character.value(forKey: "name") as! String
+                            //for testing purpose
+                            /*
+                            if (login == "996icu"){
+                                login = ""
+                            }
+                            */
+                            //create a new repository with fetched id, name and owner's name
+                            guard let repo = Repository(repoId: tId, name: name, description: "", ownerName: login, thumbnailUrl: "", starCount: "", wiki: "") else {
+                                print("Unable to instantiate contact1")
+                                continue
+                            }
+                            self.count  += 1
+                            //fill description if any
                             if let description = character.value(forKey: "description") as? String
                             {
                                 repo.description = description
@@ -56,15 +67,13 @@ class HTTPClient {
                             {
                                 repo.description = ""
                             }
-                            //repoDescription = character.value(forKey: "description")! as! String
-                            //repo.description = repoDescription//(character.value(forKey: "description") ?? "") as! String
                             //read the stars count as NSNumber then cast it to string
                             if let stars = character.value(forKey: "stargazers_count") as? NSNumber{
                                 repo.starCount = stars.stringValue
                             }
+                            //get the owner's avatar thumb
                             if let thumb=character["owner"]as? NSDictionary {
                                 repo.thumbnailUrl = thumb.value(forKey: "avatar_url") as! String
-                                repo.ownerName = thumb.value(forKey: "login") as! String
                             }
                             repo.wiki = character["html_url"] as! String
                             //add the created repository to the repositories array
@@ -79,20 +88,17 @@ class HTTPClient {
     }
     
     func getRepos(completion: @escaping (Error?) -> Void) {
+        //set the date to 30 days backwards
         let today = Date()
         let past30Days = Calendar.current.date(byAdding: .day, value: -30, to: today)
         let date = DateFormatter()
         date.dateFormat = "yyyy-MM-dd"
         let stringDate : String = date.string(from: past30Days!)
         
-        getRequestAPICall("https://api.github.com/search/repositories?q=created:%3E" + /*2019-01-01*/stringDate + "&sort=stars&order=desc",completion:{(error) in
+        getRequestAPICall("https://api.github.com/search/repositories?q=created:%3E" + stringDate + "&sort=stars&order=desc",completion:{(error) in
             completion(error)
             if(error == nil){
-                //self.populateModels2(30)
-                /*
-                 DispatchQueue.main.async(execute: {
-                 self.tableView.reloadData()
-                 })*/
+                // do something if needed
             }
         })
     }
