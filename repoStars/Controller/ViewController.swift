@@ -1,7 +1,7 @@
 //
 //  ViewController.swift
 //  repoStars
-//
+// Mohammad Dawi April 6,2019
 
 import UIKit
 
@@ -22,8 +22,8 @@ class ViewController: UIViewController {
     var totalReposCount:Int = 0
     var currentReposCount:Int = 0
     var baseUrl:String = "https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc" // changes automatically
-    var currentPage:Int = 1
-    var pageCount:Int = 30
+    var currentPage:Int = 1 // changes automatically
+    var pageCount:Int = 30 // changes automatically
     
     override func viewDidLoad() {
         super.viewDidLoad()

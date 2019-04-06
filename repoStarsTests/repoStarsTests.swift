@@ -5,7 +5,7 @@
 //  Created by Apple on 4/1/19.
 //  Copyright © 2019 matic challenge. All rights reserved.
 //
-
+// Mohammad Dawi April 6,2019
 import XCTest
 @testable import repoStars
 
@@ -29,7 +29,6 @@ class repoStarsTests: XCTestCase {
     
     // Confirm that the Contact initialier returns nil when passed an empty login or an empty name.
     func testContactInitializationFails() {
-        
         
         // Empty Id
         let nullRepoId = Repository.init(repoId: "", name: "ReMe", description: "", ownerName: "login", thumbnailUrl: "", starCount: "", wiki: "")
