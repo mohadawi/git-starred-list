@@ -30,8 +30,8 @@ final class LibraryAPI {
     private let isOnline = true
     // 2
     
-    func getRepos(completion: @escaping ([Repository]) -> Void){
-        httpClient.getRepos(completion:{(error) in
+    func getRepos(url:String?,completion: @escaping ([Repository]) -> Void){
+        httpClient.getRepos(url: url,completion:{(error) in
             if(error == nil){
                 completion(self.getRepos2())
             }
@@ -40,5 +40,9 @@ final class LibraryAPI {
     
     func getRepos2() -> [Repository]{
         return httpClient.repos
+    }
+    
+    func getReposTotalCount() -> Int  {
+        return httpClient.totalCount
     }
 }

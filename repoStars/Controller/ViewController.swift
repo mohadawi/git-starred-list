@@ -12,21 +12,51 @@ class ViewController: UIViewController {
     private var delegate: AppDelegate?
     @IBOutlet var tableView: UITableView!
     
-    var imageURLs: [URL] = []
-    var downloadImageOperationQueue: OperationQueue?
+    var imageURLs = [URL]()
+    var downloadImageOperationQueue: OperationQueue? = OperationQueue()
     var operations = NSMutableDictionary()
     var images = NSMutableDictionary()
-    var webview: UIWebView?
     var repos = [Repository]()
     let httpClient = HTTPClient()
+    var stringDate : String = "2017-11-22" // changes automatically
+    var totalReposCount:Int = 0
+    var currentReposCount:Int = 0
+    var baseUrl:String = "https://api.github.com/search/repositories?q=created:>2017-10-22&sort=stars&order=desc" // changes automatically
+    var currentPage:Int = 1
+    var pageCount:Int = 30
     
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = UIApplication.shared.delegate as? AppDelegate
-        LibraryAPI.shared.getRepos(completion:{(myRepos)  in
+        //set the initial url for api call
+        //set the date to 30 days backwards
+        let today = Date()
+        let past30Days = Calendar.current.date(byAdding: .day, value: -30, to: today)
+        let date = DateFormatter()
+        date.dateFormat = "yyyy-MM-dd"
+        stringDate = date.string(from: past30Days!)
+        baseUrl = "https://api.github.com/search/repositories?q=created:%3E" + stringDate + "&sort=stars&order=desc"
+        //let url:String = "https://api.github.com/search/repositories?q=created:%3E" + stringDate + "&sort=stars&order=desc&page=2"
+        getReposPerPage(pageNum: currentPage)
+        
+    }
+    
+    // get the list of repositories per page
+    func getReposPerPage(pageNum : Int){
+        var url:String
+        if (pageNum<2){
+             url = baseUrl
+        }
+        else{
+            url = baseUrl + "&page=" + "\(pageNum)"
+        }
+        LibraryAPI.shared.getRepos(url:url,completion:{(myRepos)  in
             if(myRepos != nil){
-                self.repos = myRepos
-                self.populateModels2(self.repos.count)
+                self.totalReposCount = LibraryAPI.shared.getReposTotalCount()
+                self.repos.append(contentsOf: myRepos)
+                self.currentReposCount = self.repos.count
+                self.pageCount=myRepos.count
+                self.populateModels2(myRepos.count)
                 DispatchQueue.main.async(execute: {
                     self.tableView.reloadData()
                 })
@@ -36,13 +66,10 @@ class ViewController: UIViewController {
     
     // MARK: Fill the avatars urls
     func populateModels2(_ count: Int) {
-        downloadImageOperationQueue = OperationQueue()
-        imageURLs = NSMutableArray() as! [URL]
-        operations = NSMutableDictionary()
-        images = NSMutableDictionary()
+        //downloadImageOperationQueue = OperationQueue()
         var urlStr: String
         //Simulating initial load of content
-        for counter in 0..<count {
+        for counter in (repos.count-count)..<(repos.count) {
             //Simulating slow download using large images
             urlStr = repos[counter].thumbnailUrl// mutableArrayThumbnails[counter] as! String
             //add extension if needed
@@ -52,6 +79,9 @@ class ViewController: UIViewController {
             let imageURL = URL(string: imageStringAdress)
             if let imageURL = imageURL {
                 imageURLs.append(imageURL)
+            }
+            else{
+                imageURLs.append(URL(string: "https://avatars1.githubusercontent.com/u/1961952?v=4")!)
             }
         }
     }
@@ -180,6 +210,12 @@ extension ViewController: UITableViewDataSource,UITabBarDelegate{//}, UITableVie
                 cell.activityIndicator.stopAnimating()
             } else {
                 executeDownloadImageOperationBlock(for: indexPath)
+            }
+        }
+        if (indexPath.row == self.imageURLs.count - 1) { // last cell
+            currentPage += 1
+            if (currentReposCount  < totalReposCount) { // more items to fetch
+                getReposPerPage(pageNum: currentPage)
             }
         }
         return cell;

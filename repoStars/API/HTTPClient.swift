@@ -12,7 +12,7 @@ import UIKit
 class HTTPClient {
     //holds the rpeos list--consider moving it up level in listAPI class
     var repos = [Repository]()
-    var count:Int = 0
+    var totalCount:Int = 0
     
     init() {
         
@@ -20,6 +20,7 @@ class HTTPClient {
     //get the list of repos (request returns 30 results per page)
     func getRequestAPICall(_ apiUurl: String?,completion: @escaping (Error?) -> Void)
      {
+        repos.removeAll()
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
         let request = NSMutableURLRequest()
@@ -35,6 +36,10 @@ class HTTPClient {
                 object = try? JSONSerialization.jsonObject(with: data, options: [])
             }
             if let object1 = object as? NSDictionary{
+                //get the total count
+                if let total = object1.value(forKey: "total_count") as? NSNumber{
+                    self.totalCount = total.intValue
+                }
                 if let characters = object1["items"] as? NSArray{
                     for (obj) in characters {
                     //loop on the results per page
@@ -57,7 +62,7 @@ class HTTPClient {
                                 print("Unable to instantiate contact1")
                                 continue
                             }
-                            self.count  += 1
+                            
                             //fill description if any
                             if let description = character.value(forKey: "description") as? String
                             {
@@ -87,15 +92,8 @@ class HTTPClient {
         task.resume()
     }
     
-    func getRepos(completion: @escaping (Error?) -> Void) {
-        //set the date to 30 days backwards
-        let today = Date()
-        let past30Days = Calendar.current.date(byAdding: .day, value: -30, to: today)
-        let date = DateFormatter()
-        date.dateFormat = "yyyy-MM-dd"
-        let stringDate : String = date.string(from: past30Days!)
-        
-        getRequestAPICall("https://api.github.com/search/repositories?q=created:%3E" + stringDate + "&sort=stars&order=desc",completion:{(error) in
+    func getRepos(url:String?,completion: @escaping (Error?) -> Void) {
+        getRequestAPICall(url,completion:{(error) in
             completion(error)
             if(error == nil){
                 // do something if needed
